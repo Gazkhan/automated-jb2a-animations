@@ -6,7 +6,7 @@ import { jb2aAAPatreonDatabase } from "./animation-functions/databases/jb2a-patr
 import { jb2aAAFreeDatabase } from "./animation-functions/databases/jb2a-free-database.js";
 
 import systemData from "./system-handlers/system-data.js";
-import { createActiveEffects5e, deleteActiveEffects5e, checkConcentration, toggleActiveEffects5e, readTokenDrop5e } from "./active-effects/ae5e.js";
+import { createActiveEffects5e, deleteActiveEffects5e, checkConcentration, toggleActiveEffects5e, readTokenDrop5e, renderScene5e } from "./active-effects/ae5e.js";
 import { createActiveEffectsPF2e, deleteActiveEffectsPF2e, readTokenDropPF2e } from "./active-effects/pf2e/aepf2e.js";
 import { createActiveEffectsPF1, deleteActiveEffectsPF1, readTokenDropPF1 } from "./active-effects/pf1/aePF1.js";
 
@@ -371,7 +371,16 @@ Hooks.once('ready', async function () {
                 if ((dropType === 'linked' && !newToken.isLinked) || (dropType === "unlinked" && newToken.isLinked)) { return; }
 
                 readTokenDrop5e(newToken)
-            })
+            });
+            Hooks.on("renderSceneControls", (scene, html, data) => {
+                if (!data.active) { return; }
+                // will need Socketlib to run as GM
+
+                const tokens = canvas.scene.tokens.contents;
+                if (tokens.length < 1) { return; }
+                renderScene5e(tokens)
+            });
+
             break;
         case 'pf2e':
             Hooks.on("createItem", (item, data, userId) => {

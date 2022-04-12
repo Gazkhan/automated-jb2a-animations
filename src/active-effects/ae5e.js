@@ -134,6 +134,7 @@ export async function deleteActiveEffects5e(effect) {
 
         // End all Animations on the token with .origin(effect.uuid)
         Sequencer.EffectManager.endEffects({ origin: effect.uuid, object: handler.sourceToken })
+        deleteEffectsAllScenes5e(effect)
     }
 }
 
@@ -191,12 +192,13 @@ export async function checkConcentration(effect) {
 }
 
 export async function readTokenDrop5e (tokenDocument) {
+    // Get the Token on the canvas and read any Active Effects currently applied to the Actor data
     const aeToken = canvas.tokens.get(tokenDocument.id)
     let effects = aeToken.actor?.data?.effects?.contents;
     if (!effects) { return; }
+
+    // Loop thru all Active Effects, and determine if any A-A data should start playing an Animation
     for (let effect of effects) {
-        //let label = effect.data?.label;
-        //let aaFlags = effect.data?.flags?.autoanimations
         if (effect.data?.disabled) { continue; }
         const data = {
             token: aeToken,
@@ -217,5 +219,53 @@ export async function readTokenDrop5e (tokenDocument) {
         }
         // Sends the data to begin the animation Sequence
         trafficCop(handler);
+    }
+}
+
+export async function renderScene5e (tokens) {
+    for (var i = 0; i < tokens.length; i++) {
+        let aeToken = tokens[i];
+        let effects = aeToken.actor?.data?.effects?.contents;
+        if (!effects) { return; }
+        for (let effect of effects) {
+            //let label = effect.data?.label;
+            //let aaFlags = effect.data?.flags?.autoanimations
+            if (effect.data?.disabled) { continue; }
+            const data = {
+                token: aeToken,
+                targets: [],
+                item: effect,
+            }
+            let handler = await systemData.make(null, null, data);
+    
+            // Exits early if Item or Source Token returns null. Total Failure
+            if (!handler.item || !handler.sourceToken) {
+                if (aaDebug) { aaDebugger("Failed to find the Item or Source Token", handler) }
+                continue;
+            }
+            if (handler.isCustomized || (!handler.isCustomized && handler.autorecObject)) {
+                const aeDelay = handler.isCustomized ? handler.flags?.options?.aeDelay || "noDelay" : handler.autorecObject.aeDelay || "noDelay";
+                const wait = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+                if (aeDelay === "noDelay") { } else {await wait(aeDelay)}
+            }
+            // Sends the data to begin the animation Sequence
+            trafficCop(handler);
+        }
+    }
+}
+
+async function deleteEffectsAllScenes5e (effect) {
+    let allScenes = game.scenes.contents;
+
+    for (var i = 0; i < allScenes.length; i++) {
+        let currentScene = allScenes[i];
+        let currentSceneId = currentScene.id;
+
+        let checkAnim = Sequencer.EffectManager.getEffects({ sceneID: currentSceneId, origin: effect.uuid})
+        console.log(checkAnim)
+        //let tokens = currentScene;
+        await Sequencer.EffectManager.endEffects({ sceneID: currentSceneId, origin: effect.uuid})
+        //let currentEffect = aaEffects.filter(i => effect.uuid.includes(i.source?.actor?.id));
+
     }
 }
