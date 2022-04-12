@@ -132,5 +132,39 @@ export async function deleteActiveEffectsPF2e(item) {
         // End all Animations on the token with .origin(effect.uuid)
         Sequencer.EffectManager.endEffects({ origin: item.uuid, object: handler.sourceToken })
     }
+}
 
+export async function readTokenDropPF2e (tokenDocument) {
+    const aaDebug = game.settings.get("autoanimations", "debug")
+    const disableNested = game.settings.get("autoanimations", "disableNestedEffects")
+
+    const aeToken = canvas.tokens.get(tokenDocument.id)
+    const aePF2eTypes = ['condition', 'effect', 'feat']
+    let items = aeToken.actor.items.contents;
+    for (let item of items) {
+        if (!aePF2eTypes.includes(item.type)) {
+            if (aaDebug) { aaDebugger("This is not a PF2e Ruleset, exiting early") }
+            continue;
+        }
+        if (item.data?.data?.references?.parent && disableNested) { 
+            if (aaDebug) { aaDebugger("This is a nested Ruleset, exiting early") }
+            continue;
+        }
+
+        const data = {
+            token: aeToken,
+            targets: [],
+            item: item,
+        }
+        let handler = await systemData.make(null, null, data);
+    
+        // Skip ahead if Item or Source Token returns null. Total Failure
+        if (!handler.item || !handler.sourceToken) {
+            if (aaDebug) { aaDebugger("Failed to find the Item or Source Token", handler) }
+            continue;
+        }
+    
+        // Sends the data to begin the animation Sequence
+        trafficCop(handler);
+    }
 }

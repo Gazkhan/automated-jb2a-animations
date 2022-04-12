@@ -164,7 +164,21 @@ export default function aaSettings() {
                 type: Boolean,
                 default: false,
                 config: true,
-            })
+            });
+            game.settings.register("autoanimations", "aeAnimTokenDrop", {
+                name: game.i18n.format("AUTOANIM.aeAnimDrop"),
+                hint: game.i18n.format("AUTOANIM.aeAnimDropHint"),
+                scope: "world",
+                type: String,
+                choices: {
+                    "none": "None",
+                    "linked": "Linked Tokens",
+                    "unlinked": "Unlinked Tokens",
+                    "both": "All Tokens",
+                },
+                default: "none",
+                config: true
+            });
             if (game.modules.get("midi-qol")?.active) {
                 game.settings.register("autoanimations", "playonhit", {
                     name: game.i18n.format("AUTOANIM.midionhit_name"),
@@ -252,6 +266,14 @@ export default function aaSettings() {
                 default: false,
                 config: true,
             });
+            game.settings.register("autoanimations", "disableAEAnimations", {
+                name: game.i18n.format("AUTOANIM.disableAEAnimations"),
+                hint: game.i18n.format("AUTOANIM.disableAEAnimationsHint"),
+                scope: 'world',
+                type: Boolean,
+                default: false,
+                config: true,
+            });
             game.settings.register("autoanimations", "disableNestedEffects", {
                 name: game.i18n.format("AUTOANIM.disableNested"),
                 hint: game.i18n.format("AUTOANIM.disableNestedHint"),
@@ -259,6 +281,20 @@ export default function aaSettings() {
                 type: Boolean,
                 default: false,
                 config: true,
+            });
+            game.settings.register("autoanimations", "aeAnimTokenDrop", {
+                name: game.i18n.format("AUTOANIM.aeAnimDrop"),
+                hint: game.i18n.format("AUTOANIM.aeAnimDropHint"),
+                scope: "world",
+                type: String,
+                choices: {
+                    "none": "None",
+                    "linked": "Linked Tokens",
+                    "unlinked": "Unlinked Tokens",
+                    "both": "All Tokens",
+                },
+                default: "none",
+                config: true
             });
         }
             break;
@@ -270,7 +306,21 @@ export default function aaSettings() {
                 type: Boolean,
                 default: false,
                 config: true,
-            })
+            });
+            game.settings.register("autoanimations", "aeAnimTokenDrop", {
+                name: game.i18n.format("AUTOANIM.aeAnimDrop"),
+                hint: game.i18n.format("AUTOANIM.aeAnimDropHint"),
+                scope: "world",
+                type: String,
+                choices: {
+                    "none": "None",
+                    "linked": "Linked Tokens",
+                    "unlinked": "Unlinked Tokens",
+                    "both": "All Tokens",
+                },
+                default: "none",
+                config: true
+            });
         }
             break;
     }

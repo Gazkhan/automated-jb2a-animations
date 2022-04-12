@@ -663,6 +663,9 @@
     "AUTOANIM.disableNestedHint": "Prevents Animations for Conditions (Rulesets) created by other Conditions",
 
     "AUTOANIM.unbindAlphaTip": "Default: Animation matches Object Alpha",
-    "AUTOANIM.unbindVisibilityTip": "Default: Animation Hides with Object"
+    "AUTOANIM.unbindVisibilityTip": "Default: Animation Hides with Object",
+
+    "AUTOANIM.aeAnimDrop": "Active Effect Animations on Token Drop",
+    "AUTOANIM.aeAnimDropHint": "Create animations when placing a token on the Canvas with Active Effects"
 
 }

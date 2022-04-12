@@ -6,9 +6,9 @@ import { jb2aAAPatreonDatabase } from "./animation-functions/databases/jb2a-patr
 import { jb2aAAFreeDatabase } from "./animation-functions/databases/jb2a-free-database.js";
 
 import systemData from "./system-handlers/system-data.js";
-import { createActiveEffects5e, deleteActiveEffects5e, checkConcentration, toggleActiveEffects5e } from "./active-effects/ae5e.js";
-import { createActiveEffectsPF2e, deleteActiveEffectsPF2e } from "./active-effects/pf2e/aepf2e.js";
-import { createActiveEffectsPF1, deleteActiveEffectsPF1 } from "./active-effects/pf1/aePF1.js";
+import { createActiveEffects5e, deleteActiveEffects5e, checkConcentration, toggleActiveEffects5e, readTokenDrop5e } from "./active-effects/ae5e.js";
+import { createActiveEffectsPF2e, deleteActiveEffectsPF2e, readTokenDropPF2e } from "./active-effects/pf2e/aepf2e.js";
+import { createActiveEffectsPF1, deleteActiveEffectsPF1, readTokenDropPF1 } from "./active-effects/pf1/aePF1.js";
 
 import AAItemSettings from "./item-sheet-handlers/animateTab.js";
 import AAActiveEffectMenu from "./active-effects/aeMenus/activeEffectApp.js";
@@ -359,7 +359,19 @@ Hooks.once('ready', async function () {
                 if (game.user.id !== userId) { return; }
                 toggleActiveEffects5e(data, toggle)
             });
-            //}
+            Hooks.on("createToken", (newToken, data, userId) => {
+                if (game.settings.get("autoanimations", "disableAEAnimations")) {
+                    console.log(`DEBUG | Automated Animations | Active Effect Animations are Disabled`);
+                    return;
+                }
+                if (game.user.id !== userId) { return; }
+                let dropType = game.settings.get("autoanimations", "aeAnimTokenDrop");
+
+                if (dropType === 'none') { return; }
+                if ((dropType === 'linked' && !newToken.isLinked) || (dropType === "unlinked" && newToken.isLinked)) { return; }
+
+                readTokenDrop5e(newToken)
+            })
             break;
         case 'pf2e':
             Hooks.on("createItem", (item, data, userId) => {
@@ -367,6 +379,20 @@ Hooks.once('ready', async function () {
             })
             Hooks.on("deleteItem", (item, data, userId) => {
                 deleteActiveEffectsPF2e(item)
+            })
+            Hooks.on("createToken", (newToken, data, userId) => {
+                console.log(newToken)
+                if (game.settings.get("autoanimations", "disableAEAnimations")) {
+                    console.log(`DEBUG | Automated Animations | Active Effect Animations are Disabled`);
+                    return;
+                }
+                if (game.user.id !== userId) { return; }
+                let dropType = game.settings.get("autoanimations", "aeAnimTokenDrop");
+
+                if (dropType === 'none') { return; }
+                if ((dropType === 'linked' && !newToken.isLinked) || (dropType === "unlinked" && newToken.isLinked)) { return; }
+
+                readTokenDropPF2e(newToken)
             })
             break;
         case "pf1":
@@ -387,6 +413,20 @@ Hooks.once('ready', async function () {
                     checkConcentration(effect)
                 }
             });
+            Hooks.on("createToken", (newToken, data, userId) => {
+                if (game.settings.get("autoanimations", "disableAEAnimations")) {
+                    console.log(`DEBUG | Automated Animations | Active Effect Animations are Disabled`);
+                    return;
+                }
+                if (game.user.id !== userId) { return; }
+                let dropType = game.settings.get("autoanimations", "aeAnimTokenDrop");
+
+                if (dropType === 'none') { return; }
+                if ((dropType === 'linked' && !newToken.isLinked) || (dropType === "unlinked" && newToken.isLinked)) { return; }
+
+                readTokenDropPF1(newToken)
+            })
+            break;
             /*
             Hooks.on("updateActiveEffect", (data, toggle, other, userId) => {
                 if (game.settings.get("autoanimations", "disableAEAnimations")) {

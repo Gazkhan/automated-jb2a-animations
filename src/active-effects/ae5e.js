@@ -16,8 +16,11 @@ export function disableAnimations() {
  * 
  */
 export async function createActiveEffects5e(effect) {
-
     const aaDebug = game.settings.get("autoanimations", "debug")
+    if (effect.data?.disabled) {
+        if (aaDebug) { aaDebugger("This AE is Disabled")};
+        return;
+    }
 
     if (killAllAnimations) { return; }
     // Sets data for the System Handler
@@ -185,5 +188,34 @@ export async function checkConcentration(effect) {
     }
 
     //Sequencer.EffectManager.endEffects({ origin: origin })
+}
 
+export async function readTokenDrop5e (tokenDocument) {
+    const aeToken = canvas.tokens.get(tokenDocument.id)
+    let effects = aeToken.actor?.data?.effects?.contents;
+    if (!effects) { return; }
+    for (let effect of effects) {
+        //let label = effect.data?.label;
+        //let aaFlags = effect.data?.flags?.autoanimations
+        if (effect.data?.disabled) { continue; }
+        const data = {
+            token: aeToken,
+            targets: [],
+            item: effect,
+        }
+        let handler = await systemData.make(null, null, data);
+
+        // Exits early if Item or Source Token returns null. Total Failure
+        if (!handler.item || !handler.sourceToken) {
+            if (aaDebug) { aaDebugger("Failed to find the Item or Source Token", handler) }
+            continue;
+        }
+        if (handler.isCustomized || (!handler.isCustomized && handler.autorecObject)) {
+            const aeDelay = handler.isCustomized ? handler.flags?.options?.aeDelay || "noDelay" : handler.autorecObject.aeDelay || "noDelay";
+            const wait = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
+            if (aeDelay === "noDelay") { } else {await wait(aeDelay)}
+        }
+        // Sends the data to begin the animation Sequence
+        trafficCop(handler);
+    }
 }
