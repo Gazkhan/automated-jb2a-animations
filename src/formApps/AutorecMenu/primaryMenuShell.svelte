@@ -5,8 +5,8 @@
 
     import { TJSIconFolder } from "@typhonjs-fvtt/svelte-standard/component";
 
-    import ChooseAnimation from "../components/chooseAnimation.svelte";
-    import Options from "../components/options.svelte";
+    import ChooseAnimation from "../components/chooseAnim.svelte"; 
+    import Options from "../components/newOptions.svelte";
     import SoundSettings from "../components/soundSettings.svelte";
     import AddExplosion from "../components/explosions.svelte";
     import Canvas3D from "../components/3dMenuShell.svelte";
@@ -33,7 +33,7 @@
 
     export let sectionData;
     let primary = sectionData.primary;
-    
+    let sectionOptions = sectionData.options;
 
 
 
@@ -112,7 +112,7 @@
     const showExplosions = ["melee", "range", "static"];
 
     let show3d;
-    let showExtraFX ;
+    let showExtraFX;
     let soundOnly;
     let enableMacro;
 
@@ -251,6 +251,7 @@
                     </div>
                     <ChooseAnimation
                         {primary}
+                        {sectionOptions}
                         bind:staticType
                         flagPath="PrimaryAnimation"
                         animTypeSwitched={false}
@@ -260,6 +261,7 @@
                         customId={`${type}-${idx}`}
                     />
                     <Options
+                        {sectionOptions}
                         animType={type}
                         menuType={primary.menuType}
                         flagData={menuSection}

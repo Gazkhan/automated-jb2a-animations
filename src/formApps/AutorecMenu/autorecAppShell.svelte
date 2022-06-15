@@ -134,6 +134,7 @@
         };
         flagData = flagData;
     }
+    
 </script>
 
 <ApplicationShell
