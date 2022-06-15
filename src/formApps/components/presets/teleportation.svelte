@@ -1,6 +1,5 @@
 <script>
     import { localize } from "@typhonjs-fvtt/runtime/svelte/helper";
-    import { fade } from "svelte/transition";
     import { TJSDialog } from "@typhonjs-fvtt/runtime/svelte/application";
     import SoundSettings from "../soundSettings.svelte";
     import ChooseAnimation from "../chooseAnimation.svelte";
@@ -280,7 +279,6 @@
             <div
                 class="flexcol"
                 style="grid-row: 1 / 2; grid-column: 4 / 5;"
-                in:fade={{ duration: 500 }}
             >
                 <label for="aaOpacity"
                     >{localize("autoanimations.menus.opacity")}</label

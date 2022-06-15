@@ -1,6 +1,5 @@
 <script>
     import { localize } from "@typhonjs-fvtt/runtime/svelte/helper";
-    import { fade } from "svelte/transition";
     import SoundSettings from "../soundSettings.svelte";
     import ChooseAnimation from "../chooseAnimation.svelte";
 
@@ -530,7 +529,7 @@
         </div>
     </div>
     {#if enableAfterImage}
-        <div class="aa-customAnim-container" transition:fade>
+        <div class="aa-customAnim-container">
             <div class="form-group" style="grid-row: 1/2; grid-column: 1/5">
                 <input
                     type="text"

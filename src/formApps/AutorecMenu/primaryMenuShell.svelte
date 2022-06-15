@@ -31,15 +31,22 @@
     export let menuSection;
     export let menuListings;
 
+    export let sectionData;
+    let primary = sectionData.primary;
+    
+
+
+
     menuSection.options ? menuSection.options : (menuSection.options = {});
     menuSection.audio ? menuSection.audio : (menuSection.audio = {});
     const options = menuSection.options;
     menuSection.primary ? menuSection.primary : (menuSection.primary = {});
     const primaryData = menuSection.primary;
 
-    export let menuType = primaryData.menuType;
-    export let animation = primaryData.animation;
+    //export let menuType = primaryData.menuType;
+    //export let animation = primaryData.animation;
 
+    /*
     let variant = primaryData.variant;
     let color = primaryData.color;
     let isCustom = primaryData.enableCustom || false;
@@ -54,6 +61,7 @@
         customPath = primaryData.customPath = customPath;
         $storeAutorec = flagData;
     }
+    */
     let menuSelection = type === "aura" ? "static" : type;
 
     async function onClick() {
@@ -71,6 +79,7 @@
         }
     }
 
+    /*
     if (!menuType) {
         menuType = Object.keys(aaTypeMenu[menuSelection])[0];
         animation = Object.keys(aaNameMenu[menuSelection][menuType])[0];
@@ -81,6 +90,7 @@
             aaColorMenu[menuSelection][menuType][animation][variant]
         )[0];
     }
+    */
     let isHidden = menuSection.hidden || false;
     $: isHidden = menuSection.hidden = isHidden;
     let customId = `${type}` + `${idx}`;
@@ -142,7 +152,7 @@
         slot="label"
         type="text"
         class="aa-nameField"
-        bind:value={sectionName}
+        bind:value={sectionData.name}
         placeholder={localize("autoanimations.menus.itemName")}
     />
 
@@ -240,12 +250,7 @@
                         </div>
                     </div>
                     <ChooseAnimation
-                        bind:menuType
-                        bind:animation
-                        bind:variant
-                        bind:color
-                        bind:isCustom
-                        bind:customPath
+                        {primary}
                         bind:staticType
                         flagPath="PrimaryAnimation"
                         animTypeSwitched={false}
@@ -256,23 +261,11 @@
                     />
                     <Options
                         animType={type}
-                        {menuType}
+                        menuType={primary.menuType}
                         flagData={menuSection}
                     />
                     <SoundSettings audioPath="a01" flagData={menuSection} />
                 </div>
-                {#if type === "melee"}
-                    <div class="aa-section-border">
-                        <RangeSwitch
-                            primaryAnimation={animation}
-                            primaryMenuType={menuType}
-                            flagData={menuSection}
-                            previewStoreData={flagData}
-                            isAutoRec={true}
-                            customId={`switch-${idx}`}
-                        />
-                    </div>
-                {/if}
                 <div class="aa-section-border">
                     {#if showExplosions.includes(type)}
                         <AddExplosion

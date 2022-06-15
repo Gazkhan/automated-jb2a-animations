@@ -23,6 +23,8 @@
     export let isAutoRec;
     export let disableReturn;
 
+    export let primary;
+    console.log(primary)
     $: {
         animType = animType;
     }

@@ -17,6 +17,16 @@
         autorecData,
         databaseType,
     } from "./autorecPreviews.js";
+    import {
+        fullStore,
+        meleeStore,
+        rangeStore,
+        staticStore,
+        templateStore,
+        auraStore,
+        presetStore,
+        aefxStore,
+    } from "./dataHandling/autorecStores.js";
     closePreviewWindow.set(false);
     import items from "./data/tabItems.js";
     import { fix_and_outro_and_destroy_block } from "svelte/internal";
@@ -25,6 +35,7 @@
     export let activeTabValue = 1;
 
     const handleClick = async (tabValue) => {
+        console.log($meleeStore);
         let currentMenu = items.filter((obj) => {
             return obj.value === activeTabValue;
         })[0];
@@ -38,10 +49,18 @@
     //const storeData = gameSettings.getStore("aaAutorec");
 
     //storeData.set(game.settings.get("autoanimations", "aaAutorec"));
-    autorecData.set(game.settings.get("autoanimations", "aaAutorec"));
-    let flagData = $autorecData;
-    $: flagData = $autorecData = flagData;
-    $: flagData = $autorecData;
+    fullStore.set(game.settings.get("autoanimations", "aaAutorec"));
+    $meleeStore = $fullStore.melee;
+    $rangeStore = $fullStore.range;
+    $staticStore = $fullStore.static;
+    $templateStore = $fullStore.templatefx;
+    $auraStore = $fullStore.aura;
+    $presetStore = $fullStore.preset;
+    $aefxStore = $fullStore.aefx;
+
+    let flagData = $fullStore;
+    $: flagData = $fullStore = flagData;
+    $: flagData = $fullStore;
     //$: flagData = $autorecData;
 
     $: storeAutorec.set(flagData);
@@ -115,39 +134,6 @@
         };
         flagData = flagData;
     }
-    /*
-    let searchFunction = foundry.utils.debounce(() => {
-        console.log("SEARCHING");
-        let currentMenu = items.filter((obj) => {
-            return obj.value === activeTabValue;
-        })[0];
-        const menuData = flagData[currentMenu.type];
-        const mergedArray = [];
-        const keys = Object.keys(menuData);
-        const keyLength = keys.length;
-        for (var i = 0; i < keyLength; i++) {
-            var currentObject = menuData[keys[i]];
-            if (!currentObject.name) {
-                continue;
-            }
-            currentObject.menuSection = keys[i];
-            mergedArray.push(currentObject);
-        }
-        mergedArray.sort((a, b) =>
-            b.name.toLowerCase() > a.name.toLowerCase() ? -1 : 1
-        );
-
-        const sortedMenu = {};
-        const newLength = mergedArray.length;
-        for (var i = 0; i < newLength; i++) {
-            var currentKey = i.toString();
-            sortedMenu[currentKey] = mergedArray[currentKey];
-        }
-
-        flagData[currentMenu.type] = sortedMenu;
-        flagData = flagData;
-    }, 300);
-    */
 </script>
 
 <ApplicationShell
@@ -168,8 +154,7 @@
                         class="flexrow"
                         class:active={activeTabValue === item.value}
                     >
-                        <span
-                            on:click={() => handleClick(item.value)}
+                        <span on:click={() => handleClick(item.value)}
                             ><i class="{item.icon} aa-zoom" />{item.label}</span
                         >
                     </li>
@@ -198,13 +183,13 @@
                                         .toLowerCase()
                                         .includes(searchValue.toLowerCase())}
                                     {#if item.type === "preset"}
-                                            <PresetShell
-                                                bind:menuSection
-                                                {idx}
-                                                type={item.type}
-                                                {flagData}
-                                                bind:menuListings
-                                            />
+                                        <PresetShell
+                                            bind:menuSection
+                                            {idx}
+                                            type={item.type}
+                                            {flagData}
+                                            bind:menuListings
+                                        />
                                     {:else if item.type === "aefx"}
                                         <div class="aaMenu-section">
                                             <ActiveEffectShell
@@ -253,6 +238,7 @@
                                         <PrimaryMenuShell
                                             bind:menuSection
                                             {idx}
+                                            sectionData={$meleeStore[idx]}
                                             type={item.type}
                                             {flagData}
                                             bind:menuListings

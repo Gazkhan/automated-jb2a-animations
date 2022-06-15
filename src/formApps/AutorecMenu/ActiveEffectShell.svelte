@@ -1,7 +1,6 @@
 <svelte:options accessors={true} />
 
 <script>
-    import { fade } from "svelte/transition";
 
     import { TJSIconFolder } from "@typhonjs-fvtt/svelte-standard/component";
 
@@ -193,7 +192,7 @@
         bind:soundOnly
     />
     {#if enableMacro}
-        <div class="aaMenu-section" transition:fade>
+        <div class="aaMenu-section">
             <MacroField
                 bind:playWhen
                 isAutorec={true}
@@ -221,7 +220,7 @@
                 </div>
             {/if}
             {#if !showExtraFX}
-                <div class="aa-header-section" in:fade>
+                <div class="aa-header-section">
                     <div class="aa-header">
                         <div
                             class="flexcol"
@@ -238,7 +237,7 @@
                             <div
                                 class="flexcol"
                                 style="grid-row:1/2; grid-column:1/2"
-                                in:fade
+                            
                             >
                                 <i
                                     class="fas fa-film aa-video-preview aa-zoom"
@@ -249,7 +248,7 @@
                         {/if}
                     </div>
                 </div>
-                <div class="aa-pickAnim" transition:fade>
+                <div class="aa-pickAnim">
                     <div
                         class="flexcol"
                         style="grid-row: 1 / 2;grid-column: 2 / 3;"
@@ -285,7 +284,7 @@
                         <div
                             class="flexcol"
                             style="grid-row: 2 / 3;grid-column: 2 / 3;"
-                            transition:fade
+                        
                         >
                             <label for="1"
                                 >{localize("autoanimations.menus.preset")}
@@ -332,12 +331,12 @@
                     {/if}
                 {:else}
                     {#if presetType === "bless"}
-                        <div transition:fade>
+                        <div>
                             <Bless isAutoRec={true} flagData={menuSection} />
                         </div>
                     {/if}
                     {#if presetType === "shieldspell"}
-                        <div transition:fade>
+                        <div>
                             <Shield isAutoRec={true} flagData={menuSection} />
                         </div>
                     {/if}

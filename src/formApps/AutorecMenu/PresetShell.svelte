@@ -1,7 +1,6 @@
 <script>
     import { localize } from "@typhonjs-fvtt/runtime/svelte/helper";
 
-    import { fade } from "svelte/transition";
     import { TJSIconFolder } from "@typhonjs-fvtt/svelte-standard/component";
 
     import Bards from "../components/presets/bardicInspiration.svelte";
@@ -143,7 +142,7 @@
         {/if}
         {#if !showExtraFX}
             {#if enableMacro}
-                <div class="aaMenu-subSection" transition:fade>
+                <div class="aaMenu-subSection">
                     <MacroField
                         animationDisabled={false}
                         flagData={menuSection}
@@ -152,17 +151,17 @@
             {/if}
             <PresetSelector bind:presetType {menuSection} />
             {#if presetType === "bardicinspiration"}
-                <div transition:fade>
+                <div>
                     <Bards {isAutoRec} flagData={menuSection} />
                 </div>
             {/if}
             {#if presetType === "bless"}
-                <div transition:fade>
+                <div>
                     <Bless {isAutoRec} flagData={menuSection} />
                 </div>
             {/if}
             {#if presetType === "dualattach"}
-                <div transition:fade>
+                <div>
                     <DualAttach
                         {isAutoRec}
                         {presetType}
@@ -171,27 +170,27 @@
                 </div>
             {/if}
             {#if presetType === "fireball"}
-                <div transition:fade>
+                <div>
                     <Fireball {isAutoRec} {presetType} flagData={menuSection} />
                 </div>
             {/if}
             {#if presetType === "huntersmark"}
-                <div transition:fade>
+                <div>
                     <HuntersMark {isAutoRec} flagData={menuSection} />
                 </div>
             {/if}
             {#if presetType === "shieldspell"}
-                <div transition:fade>
+                <div>
                     <Shield {isAutoRec} flagData={menuSection} />
                 </div>
             {/if}
             {#if presetType === "sneakattack"}
-                <div transition:fade>
+                <div>
                     <SneakAttack {isAutoRec} flagData={menuSection} />
                 </div>
             {/if}
             {#if presetType === "teleportation"}
-                <div transition:fade>
+                <div>
                     <Teleportation
                         {presetType}
                         {isAutoRec}
@@ -200,7 +199,7 @@
                 </div>
             {/if}
             {#if presetType === "thunderwave"}
-                <div transition:fade>
+                <div>
                     <Thunderwave {isAutoRec} flagData={menuSection} />
                 </div>
             {/if}

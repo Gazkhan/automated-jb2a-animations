@@ -194,7 +194,7 @@
         </div>
     </div>
     {#if bardSelf}
-        <div class="aa-3wide" transition:fade>
+        <div class="aa-3wide">
             <!--Animation Menu-->
             <div class="flexcol" style="grid-row: 3 / 4;grid-column: 1 / 2;">
                 <label for=""
@@ -267,7 +267,7 @@
         </div>
     </div>
     {#if bardTarget}
-        <div class="aa-3wide" transition:fade>
+        <div class="aa-3wide">
             <!--Animation Menu-->
             <div class="flexcol" style="grid-row: 3 / 4;grid-column: 1 / 2;">
                 <label for=""
@@ -340,7 +340,7 @@
         </div>
     </div>
     {#if markerEnable}
-        <div class="aa-3wide" transition:fade>
+        <div class="aa-3wide">
             <!--Color Menu-->
             <div class="flexcol" style="grid-row: 1 / 2;grid-column: 1 / 2;">
                 <label for=""
