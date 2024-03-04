@@ -118,6 +118,35 @@ export function registerActiveEffectHooks() {
                 deleteActiveEffects(effect);
             });
             break;
+        // When an active effect is added or removed, I believe only the "updateActor" hook is fired and makes things awkward here. 
+        /*
+        case "cof":
+            Hooks.on("updateActor", async (actor, effects, options, userId) => {
+                if (game.settings.get("autoanimations", "disableAEAnimations")) {
+                    debug(`Active Effect Animations are Disabled`);
+                    return;
+                }
+                if (game.user.id !== userId) { return; }
+                const effectsArray = effects.effects;
+                for(let effect of effectsArray){
+                    if(effect.disabled === false){
+                        const item = fromUuidSync(effect.origin);
+                        if (item) {
+                            const flagData = fromUuidSync(effect.origin).flags['autoanimations'];
+                            if (flagData) {
+                                await effect.update({ 'flags.autoanimations': flagData });
+                            }
+                            createActiveEffects(effect);
+                        }
+                    }
+                    else{
+                        deleteActiveEffects(effect);
+                    }
+                }
+
+            });
+            break;
+            */
         case 'ptu':
             Hooks.on("createItem", (item, data, userId) => {
                 if (game.settings.get("autoanimations", "disableAEAnimations")) {
