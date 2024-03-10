@@ -30,3 +30,4 @@ export * as lancer from "./aa-lancer.js";
 export * as anarchy from "./aa-shadowrun-anarchy.js";
 export * as wrathandglory from "./aa-wrath-and-glory.js";
 export * as cof from "./aa-cof.js";
+export * as morkborg from "./aa-morkborg.js";
