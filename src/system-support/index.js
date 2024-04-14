@@ -31,3 +31,5 @@ export * as anarchy from "./aa-shadowrun-anarchy.js";
 export * as wrathandglory from "./aa-wrath-and-glory.js";
 export * as cof from "./aa-cof.js";
 export * as morkborg from "./aa-morkborg.js";
+export * as mutantyearzero from "./aa-mutantyearzero.js";
+export * as sandbox from "./aa-sandbox.js";
