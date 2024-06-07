@@ -33,3 +33,4 @@ export * as cof from "./aa-cof.js";
 export * as morkborg from "./aa-morkborg.js";
 export * as mutantyearzero from "./aa-mutantyearzero.js";
 export * as sandbox from "./aa-sandbox.js";
+export * as dragonbane from "./aa-dragonbane.js";
